@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Number Guessing Game</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .game-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        h1 {
+            color: #4a5568;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        p {
+            color: #718096;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .input-section {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        input[type="number"] {
+            width: 100px;
+            padding: 10px;
+            border: 2px solid #cbd5e0;
+            border-radius: 8px;
+            font-size: 18px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="number"]:focus {
+            border-color: #667eea;
+        }
+
+        button {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #5a67d8;
+        }
+
+        .message {
+            font-size: 16px;
+            font-weight: 600;
+            min-height: 24px;
+            margin-bottom: 15px;
+        }
+
+        .hint { color: #e53e3e; }
+        .success { color: #38a169; }
+
+        .restart-btn {
+            background-color: #4a5568;
+            display: none;
+            margin: 0 auto;
+        }
+        
+        .restart-btn:hover {
+            background-color: #2d3748;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="game-container">
+        <h1>Number Guessing Game</h1>
+        <p>Guess a number between 1 and 100</p>
+        
+        <div class="input-section">
+            <input type="number" id="guessInput" min="1" max="100" placeholder="0">
+            <button id="guessBtn">Guess</button>
+        </div>
+
+        <div id="messageText" class="message"></div>
+        <button id="restartBtn" class="restart-btn">Play Again</button>
+    </div>
+
+    <script>
+        // Game state initialization
+        let secretNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        // DOM elements
+        const guessInput = document.getElementById('guessInput');
+        const guessBtn = document.getElementById('guessBtn');
+        const messageText = document.getElementById('messageText');
+        const restartBtn = document.getElementById('restartBtn');
+
+        // Core game logic matching your script updates
+        function checkGuess() {
+            const guess = Number(guessInput.value);
+
+            if (!guessInput.value || guess < 1 || guess > 100) {
+                messageText.textContent = "Please enter a valid number between 1 and 100.";
+                messageText.className = "message hint";
+                return;
+            }
+
+            attempts++;
+
+            if (guess === secretNumber) {
+                messageText.textContent = `Congratulations! You guessed the correct number in ${attempts} attempts.`;
+                messageText.className = "message success";
+                gameOver();
+            } else if (guess < secretNumber) {
+                messageText.textContent = "Too low! Try again.";
+                messageText.className = "message hint";
+            } else {
+                messageText.textContent = "Too high! Try again.";
+                messageText.className = "message hint";
+            }
+
+            guessInput.value = '';
+            guessInput.focus();
+        }
+
+        function gameOver() {
+            guessInput.disabled = true;
+            guessBtn.style.display = 'none';
+            restartBtn.style.display = 'block';
+            console.log("Game Over!");
+        }
+
+        function resetGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            guessInput.disabled = false;
+            guessInput.value = '';
+            guessBtn.style.display = 'inline-block';
+            restartBtn.style.display = 'none';
+            messageText.textContent = '';
+            messageText.className = 'message';
+        }
+
+        // Event Listeners
+        guessBtn.addEventListener('click', checkGuess);
+        guessInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') checkGuess();
+        });
+        restartBtn.addEventListener('click', resetGame);
+    </script>
+</body>
+</html>
+s

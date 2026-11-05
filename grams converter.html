@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convertisseur de Masse : Grammes en Kilogrammes</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #74ebe1 0%, #d4a5ec 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .converter-box {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666666;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus {
+            border-color: #74ebe1;
+        }
+
+        .result-box {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid #d4a5ec;
+            margin-top: 25px;
+            text-align: left;
+        }
+
+        .result-box p {
+            color: #555555;
+            font-size: 0.95rem;
+        }
+
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #222222;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="converter-box">
+        <h2>Convertisseur g en kg</h2>
+        
+        <div class="input-group">
+            <label for="gramsInput">Masse en Grammes (g)</label>
+            <input 
+                type="number" 
+                id="gramsInput" 
+                placeholder="Entrez la valeur en grammes..." 
+                min="0"
+                step="any"
+            >
+        </div>
+
+        <div class="result-box">
+            <p>Résultat en Kilogrammes :</p>
+            <div class="result-value" id="kgOutput">0 kg</div>
+        </div>
+    </div>
+
+    <script>
+        // Sélection des éléments HTML
+        const gramsInput = document.getElementById('gramsInput');
+        const kgOutput = document.getElementById('kgOutput');
+
+        // Écoute des modifications en temps réel sur le champ de saisie
+        gramsInput.addEventListener('input', () => {
+            const gramsValue = parseFloat(gramsInput.value);
+
+            // Vérification si la saisie est un nombre valide
+            if (!isNaN(gramsValue)) {
+                // Règle de conversion : 1 kg = 1000 g (donc on divise par 1000)
+                const kgValue = gramsValue / 1000;
+                
+                // Affichage du résultat formaté (maximum 6 décimales pour éviter les bugs de calcul JS)
+                kgOutput.textContent = `${Number(kgValue.toFixed(6))} kg`;
+            } else {
+                // Si le champ est vide ou invalide
+                kgOutput.textContent = '0 kg';
+            }
+        });
+    </script>
+
+</body>
+</html>
